@@ -423,6 +423,7 @@ Example: To find all .fasta files in your directory:
 find . -name "*.fasta"
 ```
 `*` its a wildcard learn more about wildcards and how to use it
+
 `diff`: Compare two files line by line.
 
 Example: To compare sequence.fasta and first_part.fasta:
