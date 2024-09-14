@@ -132,3 +132,300 @@ Move `countries.txt` into `data`:
 ```
 mv countries.txt data/
 ```
+
+10. ## Introduction to Bash Scripting
+A bash script is a text file containing a series of commands that the shell executes. It helps automate tasks.
+
+Command: `bash` executes the script.
+Example:
+Let’s create a bash script that lists all files in a directory.
+
+Create a file called list_files.sh:
+```
+nano list_files.sh
+```
+Add the following content:
+```
+#!/bin/bash
+echo "Listing all files in the current directory:"
+ls -la
+```
+Save and exit (Ctrl + S, Enter, Ctrl + X).
+
+Execute the script:
+```
+bash list_files.sh
+```
+This script will print out all the files in the current directory with details.
+
+11. #### Adding More Content with Nano
+Let's create another file, numbers.txt, where we can add a list of numbers.
+
+Example:
+Create numbers.txt:
+```
+touch numbers.txt
+```
+```
+nano numbers.txt
+```
+Add the following numbers:
+```
+1
+2
+3
+4
+5
+```
+Save and exit.
+
+12. #### Basic Bash Scripting with Loops
+Let’s extend your scripting knowledge by creating a simple bash script that reads the numbers in numbers.txt and prints them one by one.
+
+Example:
+Create a new file called print_numbers.sh:
+```
+nano print_numbers.sh
+```
+Add the following content:
+```
+#!/bin/bash
+while read number; do
+  echo "Number: $number"
+done < numbers.txt
+```
+Save and exit
+Execute it;
+```
+bash print_numbers.sh
+```
+This script will read through numbers.txt and print each number.
+
+13. ## Learning more commands with a Small FASTA Sequence File
+A FASTA file contains biological sequences (like DNA, RNA, or protein sequences) in a simple text format. It starts with a header line that begins with > followed by the sequence name, and the sequence data follows on the next lines.
+
+Example:
+Create a file called sequence.fasta:
+```
+nano sequence.fasta
+```
+Add the following content (a short DNA sequence for illustration):
+```
+>Sequence1
+ATGCTAGCTAGCTCGATCGTAGCTAGCTGATCGTACG
+>Sequence2
+GCTAGCTAGCTAGCGGATCGATCGTAGCATCGTACGC
+>Sequence3
+CGTAGCTAGCATCGATCGCGATCGTACGATCGTAGCT
+```
+Save the file by pressing Ctrl + S, and exit with Ctrl + X.
+
+Now you have a simple sequence.fasta file that mimics a small DNA dataset.
+
+14. ### Viewing and Counting Lines, Words, and Characters in Files
+The `wc` command (word count) allows you to count lines, words, and characters in a file.
+
+Command: `wc` provides counts of lines, words, and characters.
+Example:
+```
+wc sequence.fasta
+```
+Output:
+```
+6  12 152 sequence.fasta
+```
+6 = number of lines
+12 = number of words
+152 = number of characters
+If you only want to count lines:
+```
+wc -l sequence.fasta
+```
+15. ### Searching for Patterns in Files Using Grep
+The `grep` command is used to search for specific patterns within files. This is useful for finding sequences or specific identifiers in your FASTA files.
+
+Command: `grep` searches for a pattern in files.
+Example:
+To find sequences that contain the nucleotide CGT:
+```
+grep "CGT" sequence.fasta
+```
+Output:
+```
+ATGCTAGCTAGCTCGATCGTAGCTAGCTGATCGTACG
+CGTAGCTAGCATCGATCGCGATCGTACGATCGTAGCT
+```
+You can also search for specific sequence names (headers):
+```
+grep ">Sequence" sequence.fasta
+```
+Output:
+```
+>Sequence1
+>Sequence2
+>Sequence3
+```
+16. ### Editing File Content Using Sed
+The `sed` command is a stream editor used to find and replace text in files. For example, let’s say you want to replace all occurrences of CGT with GTA in the FASTA sequence file.
+
+Command: `sed` is used for text substitution in files.
+Example:
+To replace CGT with GTA in the file and print the result to the terminal (without editing the file):
+```
+sed 's/CGT/GTA/g' sequence.fasta
+```
+If you want to save the changes back into the file:
+```
+sed -i 's/CGT/GTA/g' sequence.fasta
+```
+Now, if you open sequence.fasta with `less` or use `cat`, you'll see that CGT has been replaced by GTA in the sequence.
+
+17. ### Sorting and Removing Duplicates with Sort and Uniq
+If you have a list of items, you can sort them and remove duplicates using `sort` and `uniq`.
+
+Command: `sort` arranges lines alphabetically or numerically.
+Command: `uniq` removes duplicate lines.
+Example:
+Let’s assume we create a file with some duplicate sequence names.
+
+Create a file called `sequences.txt`:
+```
+nano sequences.txt
+```
+Add the following sequence names:
+```
+Sequence1
+Sequence2
+Sequence3
+Sequence1
+Sequence2
+```
+Save and exit.
+
+Sort the file:
+```
+sort sequences.txt
+```
+Output:
+```
+Sequence1
+Sequence1
+Sequence2
+Sequence2
+Sequence3
+```
+Remove duplicates using `uniq`:
+```
+sort sequences.txt | uniq
+```
+Output:
+```
+Sequence1
+Sequence2
+Sequence3
+```
+You can also directly save the sorted, unique content back into a new file:
+```
+sort sequences.txt | uniq > sorted_sequences.txt
+```
+18. ### Counting Specific Patterns with Grep
+You can count how many times a specific pattern appears in a file using `grep -c`.
+
+Example:
+To count how many times the sequence GTA appears in sequence.fasta:
+```
+grep -c "GTA" sequence.fasta
+```
+Output:
+```
+2
+```
+This tells you that the pattern GTA appears twice in the file.
+
+19. ### Using Head and Tail Commands
+Sometimes, you might want to view just the first few lines or last few lines of a file. This is where head and tail come in handy.
+
+Command: `head` displays the first part of a file.
+Command: `tail` displays the last part of a file.
+Example:
+View the first 5 lines of sequence.fasta:
+```
+head -n 5 sequence.fasta
+```
+View the last 5 lines:
+```
+tail -n 5 sequence.fasta
+```
+20. ### Redirecting Output to Files
+You can redirect the output of commands to a file using > (overwrite) or >> (append).
+
+Example:
+To save the first 3 lines of sequence.fasta into a new file:
+```
+head -n 3 sequence.fasta > first_part.fasta
+```
+If you want to append the next 3 lines to this new file:
+```
+tail -n 3 sequence.fasta >> first_part.fasta
+```
+21. ### Combining Commands with Pipes
+You can combine commands using the pipe `|` operator, which passes the output of one command as the input to another.
+
+Example:
+To count the number of lines in sequence.fasta that contain GTA:
+```
+grep "GTA" sequence.fasta | wc -l
+```
+22. ### Creating a More Advanced Bash Script
+Let’s create a more advanced bash script that:
+
+Reads a FASTA file
+Searches for a specific sequence (e.g., GTA)
+Counts how many times that sequence appears
+Example:
+Create a new bash script called search_sequence.sh:
+```
+nano search_sequence.sh
+```
+Add the following content:
+```
+#!/bin/bash
+echo "Enter the sequence pattern to search for:"
+read pattern
+count=$(grep -c "$pattern" sequence.fasta)
+echo "The pattern '$pattern' appears $count times in sequence.fasta"
+```
+Save and exit (Ctrl + S, Ctrl + X).
+
+Execute the script:
+```
+bash search_sequence.sh
+```
+When prompted, enter GTA or any other sequence you want to search for, and the script will tell you how many times it appears.
+
+23. ### Learning More Commands
+`awk`: A text processing tool. You can use it to extract specific columns from files.
+
+Example: To extract sequence names from sequence.fasta:
+```
+awk '/^>/ {print $1}' sequence.fasta
+```
+`cut`: Extract parts of lines in a file.
+
+Example: To extract the first 10 characters from each line in sequence.fasta:
+```
+cut -c 1-10 sequence.fasta
+```
+`find`: Locate files and directories.
+
+Example: To find all .fasta files in your directory:
+```
+find . -name "*.fasta"
+```
+`*` its a wildcard learn more about wildcards and how to use it
+`diff`: Compare two files line by line.
+
+Example: To compare sequence.fasta and first_part.fasta:
+```
+diff sequence.fasta first_part.fasta
+```
